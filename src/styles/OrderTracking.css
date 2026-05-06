@@ -1,0 +1,92 @@
+.order-tracking {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: #f5efe6;
+  border-radius: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+body.dark .order-tracking {
+  background: #0f1117;
+}
+
+.tracking-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 1;
+}
+
+.tracking-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: #e8dfd3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b6f4e;
+}
+
+body.dark .tracking-icon {
+  background: #2a2a4a;
+  color: #b9a88c;
+}
+
+.tracking-icon.completed {
+  background: #6b8c5c;
+  color: white;
+}
+
+.tracking-icon.active {
+  background: #d4a373;
+  color: white;
+  transform: scale(1.1);
+}
+
+.tracking-label {
+  font-size: 0.7rem;
+  margin-top: 0.5rem;
+  color: #8b6f4e;
+}
+
+body.dark .tracking-label {
+  color: #b9a88c;
+}
+
+.tracking-label.completed {
+  color: #6b8c5c;
+  font-weight: 500;
+}
+
+.tracking-line {
+  position: absolute;
+  top: 1.25rem;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: #e8dfd3;
+  z-index: 0;
+}
+
+body.dark .tracking-line {
+  background: #2a2a4a;
+}
+
+.tracking-line.completed {
+  background: #6b8c5c;
+}
+
+@media (max-width: 640px) {
+  .tracking-label {
+    font-size: 0.6rem;
+  }
+  .tracking-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+}

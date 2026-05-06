@@ -1,0 +1,287 @@
+/* src/styles/Checkout.css */
+.checkout-page {
+  min-height: 100vh;
+  background: #FAF8F5;
+  padding: 2rem 1.5rem;
+}
+
+body.dark .checkout-page {
+  background: #1a1a2e;
+}
+
+.checkout-container {
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+.checkout-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.875rem;
+  font-weight: 400;
+  color: #2d4a2c;
+  margin-bottom: 0.5rem;
+}
+
+body.dark .checkout-title {
+  color: #7da36a;
+}
+
+.checkout-subtitle {
+  font-size: 0.875rem;
+  color: #8b6f4e;
+  margin-bottom: 2rem;
+}
+
+/* Cards */
+.checkout-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e8dfd3;
+}
+
+body.dark .checkout-card {
+  background: #16213e;
+  border-color: #2a2a4a;
+}
+
+.card-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #8b6f4e;
+  margin-bottom: 1rem;
+}
+
+/* Formulário */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field.full-width {
+  grid-column: span 2;
+}
+
+.form-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #e8dfd3;
+  padding: 0.625rem 0;
+  font-size: 0.875rem;
+  color: #4a3728;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+body.dark .form-input {
+  border-bottom-color: #2a2a4a;
+  color: #e8dfd3;
+}
+
+.form-input:focus {
+  outline: none;
+  border-bottom-color: #6b8c5c;
+}
+
+.form-input::placeholder {
+  color: #c4b5a0;
+}
+
+.form-select {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #e8dfd3;
+  padding: 0.625rem 0;
+  font-size: 0.875rem;
+  color: #4a3728;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* Métodos de Pagamento */
+.payment-methods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.payment-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e8dfd3;
+  background: transparent;
+  color: #8b6f4e;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+body.dark .payment-btn {
+  border-color: #2a2a4a;
+  color: #b9a88c;
+}
+
+.payment-btn:hover {
+  border-color: #6b8c5c;
+}
+
+.payment-btn.active {
+  border-color: #6b8c5c;
+  background: rgba(107, 140, 92, 0.1);
+  color: #6b8c5c;
+}
+
+.payment-btn span {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.cartao-expandido {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.payment-message {
+  font-size: 0.75rem;
+  color: #8b6f4e;
+  padding: 0.75rem;
+  background: #f5efe6;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+body.dark .payment-message {
+  background: #0f1117;
+  color: #b9a88c;
+}
+
+/* Resumo do Pedido */
+.resumo-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.resumo-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: #4a5568;
+}
+
+.resumo-divider {
+  height: 1px;
+  background: #e8dfd3;
+  margin: 0.75rem 0;
+}
+
+.resumo-linha {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  padding: 0.5rem 0;
+  color: #4a5568;
+}
+
+.resumo-linha.desconto {
+  color: #6b8c5c;
+}
+
+.resumo-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #2d4a2c;
+  border-top: 1px solid #e8dfd3;
+  margin-top: 0.5rem;
+}
+
+.resumo-total span:last-child {
+  font-size: 1.25rem;
+  color: #6b8c5c;
+}
+
+/* Botão Confirmar */
+.confirmar-btn {
+  width: 100%;
+  background: #6b8c5c;
+  color: white;
+  border: none;
+  padding: 0.875rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.confirmar-btn:hover {
+  background: #5a7a4a;
+  transform: translateY(-2px);
+}
+
+.confirmar-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.spinner-small {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsivo */
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-field.full-width {
+    grid-column: span 1;
+  }
+  
+  .payment-methods {
+    gap: 0.5rem;
+  }
+  
+  .payment-btn {
+    padding: 0.5rem;
+  }
+  
+  .checkout-card {
+    padding: 1rem;
+  }
+}

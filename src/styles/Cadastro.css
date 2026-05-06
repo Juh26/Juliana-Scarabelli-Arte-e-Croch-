@@ -1,0 +1,352 @@
+/* Cadastro Page */
+.cadastro-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FAF8F5;
+  padding: 3rem 1.5rem;
+}
+
+/* Modo escuro */
+body.dark .cadastro-page {
+  background: #1a1a2e;
+}
+
+.cadastro-container {
+  width: 100%;
+  max-width: 28rem;
+}
+
+/* Card Central */
+.cadastro-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e8dfd3;
+}
+
+body.dark .cadastro-card {
+  background: #16213e;
+  border-color: #2a2a4a;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Ícone */
+.cadastro-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  color: #6b8c5c;
+}
+
+body.dark .cadastro-icon {
+  color: #7da36a;
+}
+
+/* Títulos */
+.cadastro-title {
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-size: 1.875rem;
+  font-weight: 400;
+  text-align: center;
+  color: #2d4a2c;
+  margin-bottom: 0.5rem;
+}
+
+body.dark .cadastro-title {
+  color: #7da36a;
+}
+
+.cadastro-subtitle {
+  font-size: 0.75rem;
+  text-align: center;
+  color: #8b6f4e;
+  margin-bottom: 2rem;
+}
+
+body.dark .cadastro-subtitle {
+  color: #b9a88c;
+}
+
+/* Formulário */
+.cadastro-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.form-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #8b6f4e;
+  font-weight: 500;
+}
+
+body.dark .form-label {
+  color: #b9a88c;
+}
+
+.form-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #e8dfd3;
+  padding: 0.5rem 0;
+  font-size: 0.875rem;
+  color: #4a3728;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+body.dark .form-input {
+  border-bottom-color: #2a2a4a;
+  color: #e8dfd3;
+}
+
+.form-input::placeholder {
+  color: #c4b5a0;
+}
+
+body.dark .form-input::placeholder {
+  color: #5a6a7a;
+}
+
+.form-input:focus {
+  outline: none;
+  border-bottom-color: #6b8c5c;
+}
+
+body.dark .form-input:focus {
+  border-bottom-color: #7da36a;
+}
+
+.form-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.input-error {
+  border-bottom-color: #e74c3c;
+}
+
+.input-error:focus {
+  border-bottom-color: #e74c3c;
+}
+
+/* Mensagem de erro */
+.error-message {
+  font-size: 0.7rem;
+  color: #e74c3c;
+  margin-top: 0.25rem;
+}
+
+/* Campo de senha com toggle */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-input {
+  padding-right: 2rem;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #8b6f4e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  transition: color 0.3s ease;
+}
+
+body.dark .password-toggle {
+  color: #b9a88c;
+}
+
+.password-toggle:hover {
+  color: #6b8c5c;
+}
+
+body.dark .password-toggle:hover {
+  color: #7da36a;
+}
+
+/* Força da senha */
+.senha-forca-container {
+  margin-top: 0.5rem;
+}
+
+.senha-forca-bar {
+  height: 2px;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.senha-forca-texto {
+  font-size: 0.65rem;
+  color: #8b6f4e;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+body.dark .senha-forca-texto {
+  color: #b9a88c;
+}
+
+/* Termos */
+.termos-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.termos-checkbox {
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+  accent-color: #6b8c5c;
+}
+
+.termos-texto {
+  font-size: 0.7rem;
+  color: #8b6f4e;
+}
+
+body.dark .termos-texto {
+  color: #b9a88c;
+}
+
+.termos-link {
+  color: #6b8c5c;
+  text-decoration: none;
+  margin: 0 0.25rem;
+}
+
+.termos-link:hover {
+  text-decoration: underline;
+}
+
+body.dark .termos-link {
+  color: #7da36a;
+}
+
+/* Botão Criar Conta */
+.cadastro-btn {
+  width: 100%;
+  background: #6b8c5c;
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+body.dark .cadastro-btn {
+  background: #7da36a;
+  color: #1a1a2e;
+}
+
+.cadastro-btn:hover:not(:disabled) {
+  background: #5a7a4a;
+  transform: translateY(-1px);
+}
+
+body.dark .cadastro-btn:hover:not(:disabled) {
+  background: #6d8c5c;
+}
+
+.cadastro-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Spinner de loading */
+.spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+body.dark .spinner {
+  border: 2px solid rgba(26, 26, 46, 0.3);
+  border-top-color: #1a1a2e;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Link Login */
+.login-text {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #8b6f4e;
+  margin-top: 1.5rem;
+}
+
+body.dark .login-text {
+  color: #b9a88c;
+}
+
+.login-link {
+  color: #6b8c5c;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+body.dark .login-link {
+  color: #7da36a;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsividade */
+@media (max-width: 640px) {
+  .cadastro-card {
+    padding: 1.5rem;
+  }
+
+  .cadastro-title {
+    font-size: 1.5rem;
+  }
+
+  .cadastro-subtitle {
+    font-size: 0.7rem;
+  }
+}

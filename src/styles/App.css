@@ -1,0 +1,91 @@
+/* App.css - Estilos globais da aplicação */
+
+/* Estrutura para o footer ficar no final da página */
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+}
+
+/* Reset e variáveis globais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Verde Sálvia - Primary */
+  --primary: 140, 20%, 38%;
+  --primary-foreground: 140, 20%, 98%;
+  
+  /* Creme - Background */
+  --background: 40, 30%, 97%;
+  
+  /* Marrom Profundo - Foreground */
+  --foreground: 25, 20%, 22%;
+  
+  /* Bege - Accent */
+  --accent: 30, 35%, 88%;
+  --accent-foreground: 25, 20%, 22%;
+  
+  /* Muted */
+  --muted: 40, 20%, 90%;
+  --muted-foreground: 25, 10%, 40%;
+  
+  /* Border */
+  --border: 40, 20%, 85%;
+  
+  /* Destructive */
+  --destructive: 0, 70%, 50%;
+  --destructive-foreground: 0, 0%, 100%;
+  
+  /* Card */
+  --card: 0, 0%, 100%;
+  --card-foreground: 25, 20%, 22%;
+}
+
+body {
+  font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+}
+
+/* Modo escuro (opcional) */
+body.dark {
+  --background: 25, 20%, 12%;
+  --foreground: 40, 30%, 95%;
+  --card: 25, 15%, 18%;
+  --border: 25, 15%, 25%;
+  --muted: 25, 15%, 20%;
+  --muted-foreground: 40, 20%, 70%;
+  --accent: 140, 15%, 30%;
+}
+/* Estilização dos Toasts */
+.sonner-toast {
+  font-family: 'Instrument Sans', sans-serif;
+  border-radius: 0.75rem !important;
+}
+
+.sonner-toast-success {
+  background: #6b8c5c !important;
+  color: white !important;
+}
+
+.sonner-toast-warning {
+  background: #f5a623 !important;
+  color: white !important;
+}
+
+.sonner-toast-error {
+  background: #e74c3c !important;
+  color: white !important;
+}

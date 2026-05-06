@@ -1,0 +1,161 @@
+/* Footer */
+.footer {
+  background: #f5efe6;
+  border-top: 1px solid #e8dfd3;
+  margin-top: auto;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+/* Coluna 1 - Marca */
+.footer-brand {
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #2d4a2c;
+  margin-bottom: 0.75rem;
+}
+
+.footer-tagline {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #8b6f4e;
+}
+
+/* Colunas 2, 3, 4 - Títulos */
+.footer-title {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #8b6f4e;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+/* Links de Navegação */
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-links li a {
+  color: #8b6f4e;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.3s ease;
+}
+
+.footer-links li a:hover {
+  color: #2d4a2c;
+}
+
+/* Contato */
+.footer-contato {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.footer-contato li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #8b6f4e;
+  font-size: 0.875rem;
+}
+
+.footer-icon {
+  color: #6b8c5c;
+  flex-shrink: 0;
+}
+
+/* Redes Sociais */
+.footer-social {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-circle {
+  width: 2.25rem;
+  height: 2.25rem;
+  background: #e8dfd3;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b6f4e;
+  transition: all 0.3s ease;
+}
+
+.social-circle:hover {
+  background: #6b8c5c;
+  color: white;
+}
+
+/* Barra inferior */
+.footer-bottom {
+  border-top: 1px solid #e8dfd3;
+  padding: 1.5rem 2rem;
+  text-align: center;
+}
+
+.footer-copyright {
+  font-size: 0.7rem;
+  color: #8b6f4e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+}
+
+.footer-heart {
+  color: #6b8c5c;
+  fill: #6b8c5c;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .footer-brand {
+    text-align: center;
+  }
+
+  .footer-tagline {
+    text-align: center;
+  }
+
+  .footer-title {
+    text-align: center;
+  }
+
+  .footer-links {
+    align-items: center;
+  }
+
+  .footer-contato li {
+    justify-content: center;
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+
+  .footer-bottom {
+    padding: 1rem 1.5rem;
+  }
+}

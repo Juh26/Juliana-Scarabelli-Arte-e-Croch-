@@ -1,0 +1,363 @@
+/* Navbar */
+.navbar {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid #e8dfd3;
+}
+
+/* Modo escuro GLOBAL */
+body.dark .navbar {
+  background: rgba(20, 25, 35, 0.8);
+  border-bottom-color: #2a2a4a;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1280px;
+  padding: 0 1.5rem;
+}
+
+/* Logo */
+.logo {
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: #2d4a2c;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+body.dark .logo {
+  color: #7da36a;
+}
+
+.logo:hover {
+  color: #4a7c3f;
+}
+
+/* Links Desktop */
+.nav-links-desktop {
+  display: none;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: #8b6f4e;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+body.dark .nav-link {
+  color: #b9a88c;
+}
+
+.nav-link:hover {
+  color: #2d4a2c;
+}
+
+body.dark .nav-link:hover {
+  color: #7da36a;
+}
+
+.nav-link-admin {
+  color: #6b8c5c;
+}
+
+.nav-link-admin:hover {
+  color: #4a6b3a;
+}
+
+/* Ações Desktop */
+.nav-actions-desktop {
+  display: none;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #8b6f4e;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+body.dark .nav-icon-btn {
+  color: #b9a88c;
+}
+
+.nav-icon-btn:hover {
+  background: #f5efe6;
+  color: #2d4a2c;
+}
+
+body.dark .nav-icon-btn:hover {
+  background: #2a2a4a;
+  color: #7da36a;
+}
+
+/* Carrinho Badge */
+.carrinho-btn {
+  position: relative;
+}
+
+.carrinho-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #6b8c5c;
+  color: white;
+  font-size: 0.6rem;
+  font-weight: 600;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.dark .carrinho-badge {
+  background: #7da36a;
+}
+
+/* Usuário Desktop */
+.nav-usuario {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pedidos-link {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.usuario-nome {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #2d4a2c;
+}
+
+body.dark .usuario-nome {
+  color: #7da36a;
+}
+
+.entrar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.logout-btn:hover {
+  color: #e74c3c;
+}
+
+/* Menu Mobile - Botão */
+.menu-mobile-btn {
+  display: block;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #2d4a2c;
+}
+
+body.dark .menu-mobile-btn {
+  color: #7da36a;
+}
+
+/* Menu Mobile - Dropdown */
+.menu-mobile {
+  position: absolute;
+  top: 64px;
+  left: 0;
+  right: 0;
+  background: white;
+  border-bottom: 1px solid #e8dfd3;
+  overflow: hidden;
+  z-index: 40;
+}
+
+body.dark .menu-mobile {
+  background: #141923;
+  border-bottom-color: #2a2a4a;
+}
+
+.menu-mobile-links {
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mobile-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  color: #8b6f4e;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.3s ease;
+}
+
+body.dark .mobile-link {
+  color: #b9a88c;
+}
+
+.mobile-link:hover {
+  color: #2d4a2c;
+}
+
+body.dark .mobile-link:hover {
+  color: #7da36a;
+}
+
+.mobile-logout {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.mobile-divider {
+  height: 1px;
+  background: #e8dfd3;
+  margin: 0.5rem 0;
+}
+
+body.dark .mobile-divider {
+  background: #2a2a4a;
+}
+
+.mobile-usuario {
+  font-size: 0.75rem;
+  color: #6b8c5c;
+  padding: 0.5rem 0;
+}
+
+body.dark .mobile-usuario {
+  color: #7da36a;
+}
+
+.mobile-acoes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.mobile-acao-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #8b6f4e;
+  font-size: 0.875rem;
+  text-align: left;
+  transition: color 0.3s ease;
+}
+
+body.dark .mobile-acao-btn {
+  color: #b9a88c;
+}
+
+.mobile-acao-btn:hover {
+  color: #2d4a2c;
+}
+
+body.dark .mobile-acao-btn:hover {
+  color: #7da36a;
+}
+
+.carrinho-badge-mobile {
+  background: #6b8c5c;
+  color: white;
+  font-size: 0.6rem;
+  font-weight: 600;
+  padding: 0.125rem 0.375rem;
+  border-radius: 9999px;
+  margin-left: auto;
+}
+
+body.dark .carrinho-badge-mobile {
+  background: #7da36a;
+}
+
+/* Responsividade */
+@media (min-width: 768px) {
+  .nav-links-desktop {
+    display: flex;
+  }
+
+  .nav-actions-desktop {
+    display: flex;
+  }
+
+  .menu-mobile-btn {
+    display: none;
+  }
+
+  .menu-mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 0 1rem;
+  }
+
+  .logo {
+    font-size: 0.875rem;
+  }
+  /* Dashboard link (admin) */
+.dashboard-link {
+  color: #6b8c5c;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.dashboard-link:hover {
+  background: rgba(107, 140, 92, 0.1);
+  color: #5a7a4a;
+}
+
+body.dark .dashboard-link {
+  color: #7da36a;
+}
+
+body.dark .dashboard-link:hover {
+  background: rgba(125, 163, 106, 0.1);
+}
+}
