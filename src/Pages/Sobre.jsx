@@ -1,47 +1,54 @@
-import { useNavigate } from 'react-router-dom'
+// src/Pages/Sobre.jsx
+import { motion } from 'framer-motion'
 import '../styles/Sobre.css'
 
 function Sobre() {
-  const navigate = useNavigate()
-
   return (
-    <div className="sobre-container">
-      {/* Conteúdo da página Sobre */}
-      <div className="sobre-content">
-        <div className="sobre-grid">
-          
-          <div className="sobre-imagem">
-            <img 
-              src="/atelie.jpeg" 
-              alt="Ateliê Juliana Scarabelli"
-              className="imagem-real"
-            />
-          </div>
-        
-          <div className="sobre-texto">
-            <h1 className="sobre-titulo">Nossa História</h1>
-            <div className="sobre-descricao">
-              <p>
-                A <strong>Juliana Scarabelli Crochê</strong> nasceu do amor pelo trabalho manual e pela tradição do crochê, passada de geração em geração na cidade de Muriaé, Minas Gerais.
-              </p>
-              <p>
-                Cada peça é única, feita à mão com materiais selecionados — fios de algodão mercerizado, lãs acrílicas premium e barbantes ecológicos. Do primeiro ponto ao acabamento final, cada criação carrega a delicadeza e o cuidado de quem ama o que faz.
-              </p>
-              <p>
-                Acreditamos que o crochê é mais do que artesanato — é arte, é memória afetiva, é aconchego transformado em fio e cor. Nosso objetivo é levar essa sensação para a sua casa.
-              </p>
-              <p className="sobre-destaque">
-                De Muriaé para o mundo, com muito carinho em cada ponto.
-              </p>
+    <div className="sobre-page">
+      <div className="sobre-container">
+        <motion.div
+          className="sobre-content"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          {/* Grid 2 colunas */}
+          <div className="sobre-grid">
+            {/* Imagem do Ateliê - Esquerda */}
+            <div className="sobre-imagem-wrapper">
+              <div className="sobre-imagem">
+                <img 
+                  src="public\atelie.jpeg" 
+                  alt="atelie.jpeg"
+                  className="sobre-imagem-img"
+                />
+              </div>
+            </div>
+            {/* Conteúdo Textual - Direita */}
+            <div className="sobre-texto-wrapper">
+              <h1 className="sobre-titulo">Nossa História</h1>
+              
+              <div className="sobre-paragrafos">
+                <p className="sobre-paragrafo">
+                  A <strong>Juliana Scarabelli Crochê</strong> nasceu do amor pelo trabalho manual e pela tradição do crochê, passada de geração em geração na cidade de <strong>Muriaé, Minas Gerais</strong>.
+                </p>
+
+                <p className="sobre-paragrafo">
+                  Cada peça é única, feita à mão com materiais selecionados — <strong>fios de algodão mercerizado, lãs acrílicas premium e barbantes ecológicos</strong>. Do primeiro ponto ao acabamento final, cada criação carrega a delicadeza e o cuidado de quem ama o que faz.
+                </p>
+
+                <p className="sobre-paragrafo">
+                  Acreditamos que o crochê é mais do que artesanato — é <strong>arte, memória afetiva e aconchego</strong>. Nosso objetivo é levar essa sensação para a sua casa.
+                </p>
+
+                <p className="sobre-citacao">
+                  "De Muriaé para o mundo, com muito carinho em cada ponto."
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
-
-      {/* Botão voltar */}
-      <button className="back-button" onClick={() => navigate('/')}>
-        ← Voltar
-      </button>
     </div>
   )
 }

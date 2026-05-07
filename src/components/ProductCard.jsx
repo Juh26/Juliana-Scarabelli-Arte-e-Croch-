@@ -10,18 +10,29 @@ function ProductCard({ product }) {
   const handleAddToCart = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    
     addItem(product, 1)
-    
-    // Feedback visual
     toast.success(`${product.nome} adicionado ao carrinho!`)
   }
+
+  // Verificar se é uma URL de imagem
+  const temImagem = product.imagem && (
+    product.imagem.startsWith('http') || 
+    product.imagem.includes('supabase.co/storage')
+  )
 
   return (
     <div className="produto-card">
       <Link to={`/produto/${product.id}`} className="produto-link">
         <div className="produto-imagem">
-          <span>{product.imagem || '🧶'}</span>
+          {temImagem ? (
+            <img 
+              src={product.imagem} 
+              alt={product.nome} 
+              className="card-imagem"
+            />
+          ) : (
+            <span className="card-emoji">🧶</span>
+          )}
           {product.em_promocao && (
             <span className="promo-badge">PROMOÇÃO</span>
           )}
@@ -29,11 +40,6 @@ function ProductCard({ product }) {
         <div className="produto-info">
           <span className="produto-categoria">{product.categoria}</span>
           <h3 className="produto-nome">{product.nome}</h3>
-          <div className="produto-rating">
-            <span>⭐</span>
-            <span>{product.rating}</span>
-            <span>({product.num_avaliacoes})</span>
-          </div>
           <div className="produto-preco">
             {product.em_promocao && product.preco_original ? (
               <>
@@ -54,7 +60,7 @@ function ProductCard({ product }) {
         onClick={handleAddToCart}
       >
         <ShoppingBag size={16} />
-        Adicionar ao Carrinho
+        Adicionar
       </button>
     </div>
   )

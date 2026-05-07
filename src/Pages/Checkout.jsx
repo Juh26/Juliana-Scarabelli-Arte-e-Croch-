@@ -2,10 +2,11 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { QrCode, CreditCard, FileText, CheckCircle } from 'lucide-react'
+import { QrCode, CreditCard, FileText } from 'lucide-react'
 import { useCart } from '../contexts/CartContext'
 import { useAuth } from '../contexts/Authcontext'
 import { supabase } from '../services/supabase'
+import { toast, Toaster } from 'sonner'
 import '../styles/Checkout.css'
 
 function Checkout() {
@@ -17,37 +18,28 @@ function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState('pix')
   const [parcelas, setParcelas] = useState(1)
   
-  // Dados do formulário
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
     telefone: '',
-    cpf: '',
     endereco: '',
-    cep: '',
     cidade: '',
-    estado: ''
+    estado: '',
+    cep: ''
   })
 
-  // Pré-preenche com dados do usuário
   useEffect(() => {
-    if (user) {
+    if (!user) {
+      navigate('/login')
+    } else if (user) {
       setFormData(prev => ({
         ...prev,
         nome: user.nome || '',
         email: user.email || ''
       }))
     }
-  }, [user])
-
-  // Verificar se está logado
-  useEffect(() => {
-    if (!user) {
-      navigate('/login')
-    }
   }, [user, navigate])
 
-  // Verificar se carrinho está vazio
   useEffect(() => {
     if (cartItems.length === 0 && !processing) {
       navigate('/carrinho')
@@ -55,10 +47,30 @@ function Checkout() {
   }, [cartItems, navigate, processing])
 
   const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+    const { name, value } = e.target
+    
+    // Máscara para telefone
+    if (name === 'telefone') {
+      let telefoneValue = value.replace(/\D/g, '')
+      if (telefoneValue.length <= 11) {
+        telefoneValue = telefoneValue.replace(/^(\d{2})(\d)/, '($1) $2')
+        telefoneValue = telefoneValue.replace(/(\d{5})(\d)/, '$1-$2')
+        setFormData({ ...formData, telefone: telefoneValue })
+      }
+      return
+    }
+    
+    // Máscara para CEP
+    if (name === 'cep') {
+      let cepValue = value.replace(/\D/g, '')
+      if (cepValue.length <= 8) {
+        cepValue = cepValue.replace(/^(\d{5})(\d)/, '$1-$2')
+        setFormData({ ...formData, cep: cepValue })
+      }
+      return
+    }
+    
+    setFormData({ ...formData, [name]: value })
   }
 
   const gerarNumeroPedido = () => {
@@ -68,21 +80,51 @@ function Checkout() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     
-    // Validar formulário
-    const requiredFields = ['nome', 'email', 'telefone', 'endereco', 'cidade', 'estado']
-    for (const field of requiredFields) {
-      if (!formData[field]) {
-        alert(`Preencha o campo ${field}`)
-        return
-      }
+    // ============================================
+    // VALIDAÇÕES OBRIGATÓRIAS
+    // ============================================
+    
+    if (!formData.nome || formData.nome.trim() === '') {
+      toast.error('Por favor, preencha seu nome completo')
+      return
+    }
+    
+    if (!formData.email || !formData.email.includes('@')) {
+      toast.error('Por favor, preencha um e-mail válido')
+      return
+    }
+    
+    if (!formData.endereco || formData.endereco.trim() === '') {
+      toast.error('Por favor, preencha seu endereço')
+      return
+    }
+    
+    if (!formData.cidade || formData.cidade.trim() === '') {
+      toast.error('Por favor, preencha sua cidade')
+      return
+    }
+    
+    if (!formData.estado || formData.estado.trim() === '') {
+      toast.error('Por favor, preencha seu estado')
+      return
+    }
+    
+    if (!formData.telefone || formData.telefone.trim() === '') {
+      toast.error('Por favor, preencha seu telefone')
+      return
+    }
+    
+    // Validação de CEP (se preenchido)
+    if (formData.cep && formData.cep.replace(/\D/g, '').length < 8) {
+      toast.warning('Verifique se o CEP está correto')
+      return
     }
     
     setProcessing(true)
-    
-    // Simular delay de processamento
+
+    // Simular delay
     await new Promise(resolve => setTimeout(resolve, 1500))
     
-    // Criar pedido
     const numeroPedido = gerarNumeroPedido()
     
     const pedido = {
@@ -90,7 +132,7 @@ function Checkout() {
       usuario_id: user.id,
       usuario_nome: formData.nome,
       usuario_email: formData.email,
-      usuario_endereco: `${formData.endereco}, ${formData.cidade} - ${formData.estado}, CEP: ${formData.cep}`,
+      usuario_endereco: `${formData.endereco}, ${formData.cidade} - ${formData.estado}`,
       itens: cartItems.map(item => ({
         productId: item.productId,
         nome: item.nome,
@@ -100,20 +142,18 @@ function Checkout() {
       subtotal: subtotal,
       desconto: desconto,
       total: total,
-      cupom: null,
       forma_pagamento: paymentMethod,
       parcelas: paymentMethod === 'cartao' ? parcelas : 1,
       status: 'preparando'
     }
     
-    // Salvar no Supabase
     const { error } = await supabase
       .from('pedidos')
       .insert([pedido])
     
     if (error) {
-      console.error('Erro ao salvar pedido:', error)
-      alert('Erro ao finalizar pedido. Tente novamente.')
+      console.error('Erro ao salvar:', error)
+      toast.error(`Erro: ${error.message}`)
       setProcessing(false)
       return
     }
@@ -131,18 +171,14 @@ function Checkout() {
     })
   }
 
-  // Cálculo do valor da parcela
-  const getValorParcela = () => {
-    if (parcelas === 1) return total
-    return total / parcelas
-  }
-
   if (!user || cartItems.length === 0) {
     return null
   }
 
   return (
     <div className="checkout-page">
+      <Toaster position="top-right" richColors />
+      
       <div className="checkout-container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -153,7 +189,7 @@ function Checkout() {
           <p className="checkout-subtitle">Complete seus dados para finalizar</p>
 
           <form onSubmit={handleSubmit}>
-            {/* CARD 1 - DADOS DE ENTREGA */}
+            {/* DADOS DE ENTREGA */}
             <div className="checkout-card">
               <h2 className="card-label">DADOS DE ENTREGA</h2>
               <div className="form-grid">
@@ -190,16 +226,6 @@ function Checkout() {
                     className="form-input"
                   />
                 </div>
-                <div className="form-field">
-                  <input
-                    type="text"
-                    name="cpf"
-                    placeholder="CPF"
-                    value={formData.cpf}
-                    onChange={handleInputChange}
-                    className="form-input"
-                  />
-                </div>
                 <div className="form-field full-width">
                   <input
                     type="text"
@@ -208,16 +234,6 @@ function Checkout() {
                     value={formData.endereco}
                     onChange={handleInputChange}
                     required
-                    className="form-input"
-                  />
-                </div>
-                <div className="form-field">
-                  <input
-                    type="text"
-                    name="cep"
-                    placeholder="CEP"
-                    value={formData.cep}
-                    onChange={handleInputChange}
                     className="form-input"
                   />
                 </div>
@@ -243,13 +259,22 @@ function Checkout() {
                     className="form-input"
                   />
                 </div>
+                <div className="form-field">
+                  <input
+                    type="text"
+                    name="cep"
+                    placeholder="CEP"
+                    value={formData.cep}
+                    onChange={handleInputChange}
+                    className="form-input"
+                  />
+                </div>
               </div>
             </div>
 
-            {/* CARD 2 - FORMA DE PAGAMENTO */}
+            {/* FORMA DE PAGAMENTO */}
             <div className="checkout-card">
               <h2 className="card-label">FORMA DE PAGAMENTO</h2>
-              
               <div className="payment-methods">
                 <button
                   type="button"
@@ -276,79 +301,25 @@ function Checkout() {
                   <span>Boleto</span>
                 </button>
               </div>
-
-              {/* CARTÃO DE CRÉDITO (expandido) */}
-              {paymentMethod === 'cartao' && (
-                <div className="cartao-expandido">
-                  <div className="form-field">
-                    <input
-                      type="text"
-                      placeholder="Número do cartão"
-                      className="form-input"
-                    />
-                  </div>
-                  <div className="form-grid">
-                    <div className="form-field">
-                      <input
-                        type="text"
-                        placeholder="MM/AA"
-                        className="form-input"
-                      />
-                    </div>
-                    <div className="form-field">
-                      <input
-                        type="text"
-                        placeholder="CVV"
-                        className="form-input"
-                      />
-                    </div>
-                  </div>
-                  <div className="form-field">
-                    <select 
-                      value={parcelas} 
-                      onChange={(e) => setParcelas(Number(e.target.value))}
-                      className="form-select"
-                    >
-                      <option value={1}>1x de R$ {total.toFixed(2)}</option>
-                      <option value={2}>2x de R$ {(total / 2).toFixed(2)}</option>
-                      <option value={3}>3x de R$ {(total / 3).toFixed(2)}</option>
-                      <option value={4}>4x de R$ {(total / 4).toFixed(2)}</option>
-                      <option value={5}>5x de R$ {(total / 5).toFixed(2)}</option>
-                      <option value={6}>6x de R$ {(total / 6).toFixed(2)}</option>
-                      <option value={10}>10x de R$ {(total / 10).toFixed(2)}</option>
-                      <option value={12}>12x de R$ {(total / 12).toFixed(2)}</option>
-                    </select>
-                  </div>
-                </div>
-              )}
-
-              {/* PIX */}
+              
               {paymentMethod === 'pix' && (
-                <p className="payment-message">
-                  Você receberá o QR Code após confirmar o pedido.
-                </p>
+                <p className="payment-message">Você receberá o QR Code após confirmar o pedido.</p>
               )}
-
-              {/* BOLETO */}
               {paymentMethod === 'boleto' && (
-                <p className="payment-message">
-                  O boleto será gerado e enviado para seu e-mail.
-                </p>
+                <p className="payment-message">O boleto será gerado e enviado para seu e-mail.</p>
               )}
             </div>
 
-            {/* CARD 3 - RESUMO DO PEDIDO */}
+            {/* RESUMO DO PEDIDO */}
             <div className="checkout-card">
               <h2 className="card-label">RESUMO DO PEDIDO</h2>
               
-              <div className="resumo-items">
-                {cartItems.map(item => (
-                  <div key={item.productId} className="resumo-item">
-                    <span>{item.nome} × {item.quantidade}</span>
-                    <span>R$ {(item.preco * item.quantidade).toFixed(2)}</span>
-                  </div>
-                ))}
-              </div>
+              {cartItems.map(item => (
+                <div key={item.productId} className="resumo-item">
+                  <span>{item.nome} × {item.quantidade}</span>
+                  <span>R$ {(item.preco * item.quantidade).toFixed(2)}</span>
+                </div>
+              ))}
               
               <div className="resumo-divider"></div>
               
@@ -370,7 +341,6 @@ function Checkout() {
               </div>
             </div>
 
-            {/* BOTÃO CONFIRMAR */}
             <button 
               type="submit" 
               className="confirmar-btn"

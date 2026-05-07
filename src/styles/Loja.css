@@ -249,4 +249,109 @@ body.dark .add-to-cart-btn-card {
   background: #7da36a;
   color: #1a1a2e;
 }
+/* Imagem do card */
+.produto-imagem {
+  position: relative;
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, #e8f0e6, #d4e8cf);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.card-imagem {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.produto-card:hover .card-imagem {
+  transform: scale(1.05);
+}
+
+.card-emoji {
+  font-size: 3rem;
+}
+/* Imagem do card */
+.produto-imagem {
+  position: relative;
+  width: 100%;
+  height: 200px; /* Altura fixa */
+  background: linear-gradient(135deg, #e8f0e6, #d4e8cf);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.card-imagem {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Faz a imagem preencher sem distorcer */
+  transition: transform 0.5s ease;
+}
+
+.produto-card:hover .card-imagem {
+  transform: scale(1.05);
+}
+
+.card-emoji {
+  font-size: 3rem;
+}
+.produto-imagem {
+  position: relative;
+  aspect-ratio: 1 / 1; /* Força ser quadrado */
+  background: linear-gradient(135deg, #e8f0e6, #d4e8cf);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.card-imagem {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+@media (max-width: 640px) {
+  .produtos-grid {
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+  
+  .produto-card {
+    margin-bottom: 0.5rem;
+  }
+}
+@media (max-width: 640px) {
+  .filtros {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    padding-bottom: 0.5rem;
+    gap: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .filtro-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
+@media (max-width: 640px) {
+  .preco-atual {
+    font-size: 0.9rem;
+  }
+  
+  .produto-nome {
+    font-size: 0.8rem;
+  }
+  
+  .produto-categoria {
+    font-size: 0.6rem;
+  }
+}
 }

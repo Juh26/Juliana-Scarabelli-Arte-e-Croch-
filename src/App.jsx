@@ -1,5 +1,5 @@
 // src/App.jsx
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import { Toaster } from 'sonner'
 import Navbar from './components/Navbar'
 import Footer from './Pages/Footer'
@@ -14,16 +14,26 @@ import Contato from './Pages/Contato'
 import Login from './Pages/Login'
 import Cadastro from './Pages/Cadastro'
 import Admin from './Pages/Admin'
+import AdminProduto from './Pages/AdminProduto'
+import MeusPedidos from './Pages/MeusPedidos'
+import EsqueciSenha from './Pages/EsqueciSenha'
+import ResetarSenha from './Pages/ResetarSenha'
 import AdminRoute from './components/AdminRoute'
 import './styles/App.css'
 import './styles/Navbar.css'
 import './styles/Footer.css'
 
 function App() {
+  const location = useLocation()
+  
+  // Verificar se a rota atual é a Home (para não mostrar Navbar)
+  const isHome = location.pathname === '/'
+
   return (
     <div className="app-wrapper">
       <Toaster position="top-right" richColors />
-      <Navbar />
+      {/* Navbar só aparece se NÃO for a Home */}
+      {!isHome && <Navbar />}
       <main className="main-content">
         <Routes>
           {/* Páginas públicas */}
@@ -37,10 +47,13 @@ function App() {
           {/* Autenticação */}
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro />} />
+          <Route path="/esqueci-senha" element={<EsqueciSenha />} />
+          <Route path="/resetar-senha/:token" element={<ResetarSenha />} />
           
-          {/* Checkout (requer login) */}
+          {/* Checkout e Pedidos */}
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/pedido-confirmado" element={<PedidoConfirmado />} />
+          <Route path="/meus-pedidos" element={<MeusPedidos />} />
           
           {/* Admin (protegido) */}
           <Route 
@@ -48,6 +61,16 @@ function App() {
             element={
               <AdminRoute>
                 <Admin />
+              </AdminRoute>
+            } 
+          />
+          
+          {/* Admin - Formulário de Produto (protegido) */}
+          <Route 
+            path="/admin/produto/:id" 
+            element={
+              <AdminRoute>
+                <AdminProduto />
               </AdminRoute>
             } 
           />

@@ -114,6 +114,11 @@ function Admin() {
     }
   }
 
+  // Verificar se a imagem é uma URL válida
+  const temImagem = (imagem) => {
+    return imagem && (imagem.startsWith('http') || imagem.includes('supabase.co/storage'))
+  }
+
   // Filtrar produtos
   const produtosFiltrados = produtos.filter(produto => {
     const matchBusca = produto.nome.toLowerCase().includes(buscaProduto.toLowerCase())
@@ -121,8 +126,8 @@ function Admin() {
     return matchBusca && matchCategoria
   })
 
-  // Categorias para filtro
-  const categorias = ['Amigurumi', 'Acessórios', 'Decoração', 'Vestuário', 'Bebê']
+  // ✅ CATEGORIAS ATUALIZADAS - ALTERADO AQUI!
+  const categorias = ['Todos', 'Decoração', 'Chaveiros', 'Bolsas', 'Vestuário']
 
   // Formatar data
   const formatarData = (dateString) => {
@@ -249,12 +254,20 @@ function Admin() {
                   <tr key={produto.id}>
                     <td>
                       <div className="product-thumb">
-                        {produto.imagem || '🧶'}
+                        {temImagem(produto.imagem) ? (
+                          <img 
+                            src={produto.imagem} 
+                            alt={produto.nome} 
+                            className="product-thumb-img"
+                          />
+                        ) : (
+                          <span className="product-thumb-emoji">🧶</span>
+                        )}
                       </div>
                     </td>
                     <td>{produto.nome}</td>
                     <td>{produto.categoria}</td>
-                    <td>R$ {produto.preco.toFixed(2)}</td>
+                    <td>R$ {produto.preco?.toFixed(2)}</td>
                     <td>
                       {produto.estoque}
                       {produto.estoque <= 3 && (

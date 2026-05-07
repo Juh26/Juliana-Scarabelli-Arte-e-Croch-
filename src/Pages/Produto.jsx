@@ -26,12 +26,15 @@ function Produto() {
         .select('*')
         .eq('id', id)
         .single()
-      
+
       if (error) {
         console.error('Erro ao buscar produto:', error)
         setCarregando(false)
         return
       }
+      
+      console.log('Produto carregado:', produtoData)
+      console.log('URL da imagem:', produtoData.imagem)
       
       setProduto(produtoData)
       
@@ -49,7 +52,6 @@ function Produto() {
 
   const handleAddToCart = () => {
     if (!produto) return
-    
     addItem(produto, quantidade)
     toast.success(`${quantidade}x ${produto.nome} adicionado ao carrinho!`)
   }
@@ -86,6 +88,11 @@ function Produto() {
     )
   }
 
+  // Verificar se a imagem é uma URL válida
+  const imagemUrl = produto.imagem && (produto.imagem.startsWith('http') || produto.imagem.startsWith('https')) 
+    ? produto.imagem 
+    : null
+
   return (
     <div className="produto-page">
       <div className="produto-container">
@@ -94,13 +101,29 @@ function Produto() {
         </button>
 
         <div className="produto-grid">
+          {/* Imagem do Produto */}
           <div className="produto-imagem">
-            <span>{produto.imagem || '🧶'}</span>
+            {imagemUrl ? (
+              <img 
+                src={imagemUrl} 
+                alt={produto.nome} 
+                className="imagem-real"
+                onError={(e) => {
+                  console.error('Erro ao carregar imagem:', imagemUrl)
+                  e.target.style.display = 'none'
+                  e.target.nextSibling.style.display = 'flex'
+                }}
+              />
+            ) : null}
+            <div className="imagem-emoji" style={{ display: imagemUrl ? 'none' : 'flex' }}>
+              <span>{produto.imagem === imagemUrl ? '🧶' : (produto.imagem || '🧶')}</span>
+            </div>
             {produto.em_promocao && (
               <span className="promo-badge">PROMOÇÃO</span>
             )}
           </div>
 
+          {/* Informações do Produto */}
           <div className="produto-info">
             <span className="produto-categoria">{produto.categoria}</span>
             <h1 className="produto-nome">{produto.nome}</h1>
@@ -108,7 +131,11 @@ function Produto() {
             <div className="produto-rating">
               <div className="stars">
                 {[1,2,3,4,5].map(star => (
-                  <Star key={star} size={16} className={star <= (produto.rating || 0) ? 'star-filled' : 'star-empty'} />
+                  <Star 
+                    key={star} 
+                    size={16} 
+                    className={star <= (produto.rating || 0) ? 'star-filled' : 'star-empty'} 
+                  />
                 ))}
               </div>
               <span>({produto.num_avaliacoes || 0} avaliações)</span>
@@ -147,6 +174,7 @@ function Produto() {
           </div>
         </div>
 
+        {/* Avaliações */}
         {avaliacoes.length > 0 && (
           <div className="avaliacoes-section">
             <h3>Avaliações dos Clientes</h3>

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  Menu, X, Sun, Moon, User, ShoppingBag, LogOut
+  Menu, X, Sun, Moon, User, ShoppingBag, LogOut, Package 
 } from 'lucide-react'
 import { useAuth } from '../contexts/Authcontext'
 import { useCart } from '../contexts/CartContext'
@@ -34,31 +34,41 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        {/* Logo */}
+        {/* Logo - sempre visível */}
         <Link to="/" className="logo" onClick={fecharMenu}>
           Juliana Scarabelli
         </Link>
 
-        {/* Links Desktop */}
+        {/* ============================================ */}
+        {/* LINKS DESKTOP - Regras de visibilidade */}
+        {/* ============================================ */}
         <div className="nav-links-desktop">
+          {/* Links públicos - todo mundo vê */}
           <Link to="/loja" className="nav-link">Loja</Link>
           <Link to="/sobre" className="nav-link">Sobre</Link>
           <Link to="/contato" className="nav-link">Contato</Link>
           
-          {/* Dashboard - aparece APENAS para ADMIN */}
+          {/* Dashboard - SÓ ADMIN vê */}
           {isAdmin && (
-            <Link to="/admin" className="nav-link">Dashboard</Link>
+            <Link to="/admin" className="nav-link nav-link-admin">Dashboard</Link>
+          )}
+          
+          {/* Meus Pedidos - SÓ USUÁRIO LOGADO vê (comum ou admin) */}
+          {user && (
+            <Link to="/meus-pedidos" className="nav-link">Meus Pedidos</Link>
           )}
         </div>
 
-        {/* Ícones Desktop */}
+        {/* ============================================ */}
+        {/* ÍCONES DESKTOP */}
+        {/* ============================================ */}
         <div className="nav-actions-desktop">
-          {/* Tema */}
+          {/* Tema - todo mundo vê */}
           <button onClick={toggleTema} className="nav-icon-btn">
             {temaEscuro ? <Sun size={16} /> : <Moon size={16} />}
           </button>
 
-          {/* Carrinho com badge */}
+          {/* Carrinho - todo mundo vê */}
           <button className="nav-icon-btn carrinho-btn" onClick={() => navigate('/carrinho')}>
             <ShoppingBag size={16} />
             {cartCount > 0 && (
@@ -66,7 +76,7 @@ function Navbar() {
             )}
           </button>
 
-          {/* Usuário */}
+          {/* Usuário - muda conforme está logado ou não */}
           {user ? (
             <div className="nav-usuario">
               <span className="usuario-nome">{user.nome}</span>
@@ -82,13 +92,15 @@ function Navbar() {
           )}
         </div>
 
-        {/* Menu Mobile */}
+        {/* Menu Mobile - Botão Hambúrguer */}
         <button className="menu-mobile-btn" onClick={() => setMenuAberto(!menuAberto)}>
           {menuAberto ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
-      {/* Dropdown Mobile */}
+      {/* ============================================ */}
+      {/* MENU MOBILE - Dropdown */}
+      {/* ============================================ */}
       <AnimatePresence>
         {menuAberto && (
           <motion.div
@@ -99,16 +111,27 @@ function Navbar() {
             transition={{ duration: 0.3 }}
           >
             <div className="menu-mobile-links">
+              {/* Links públicos - todo mundo vê */}
               <Link to="/loja" className="mobile-link" onClick={fecharMenu}>Loja</Link>
               <Link to="/sobre" className="mobile-link" onClick={fecharMenu}>Sobre</Link>
               <Link to="/contato" className="mobile-link" onClick={fecharMenu}>Contato</Link>
               
+              {/* Dashboard - SÓ ADMIN vê */}
               {isAdmin && (
                 <Link to="/admin" className="mobile-link" onClick={fecharMenu}>Dashboard</Link>
               )}
               
+              {/* Meus Pedidos - SÓ USUÁRIO LOGADO vê */}
+              {user && (
+                <Link to="/meus-pedidos" className="mobile-link" onClick={fecharMenu}>
+                  <Package size={14} />
+                  <span>Meus Pedidos</span>
+                </Link>
+              )}
+              
               <div className="mobile-divider"></div>
               
+              {/* Carrinho - todo mundo vê */}
               <button className="mobile-link" onClick={() => { navigate('/carrinho'); fecharMenu(); }}>
                 <ShoppingBag size={14} />
                 <span>Carrinho</span>
@@ -117,6 +140,7 @@ function Navbar() {
                 )}
               </button>
               
+              {/* Usuário - muda conforme está logado */}
               {user ? (
                 <>
                   <button onClick={handleLogout} className="mobile-link mobile-logout">
@@ -134,6 +158,7 @@ function Navbar() {
               
               <div className="mobile-divider"></div>
               
+              {/* Tema - todo mundo vê */}
               <div className="mobile-acoes">
                 <button onClick={toggleTema} className="mobile-acao-btn">
                   {temaEscuro ? <Sun size={14} /> : <Moon size={14} />}

@@ -1,7 +1,7 @@
 // src/Pages/PedidoConfirmado.jsx
 import { useLocation, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { CheckCircle } from 'lucide-react'
+import { CheckCircle, Package, ArrowRight } from 'lucide-react'
 import '../styles/PedidoConfirmado.css'
 
 function PedidoConfirmado() {
@@ -55,6 +55,7 @@ function PedidoConfirmado() {
               className="btn-primary"
               onClick={() => navigate('/meus-pedidos')}
             >
+              <Package size={16} />
               Ver meus pedidos
             </button>
             <button 
@@ -62,6 +63,7 @@ function PedidoConfirmado() {
               onClick={() => navigate('/loja')}
             >
               Continuar comprando
+              <ArrowRight size={14} />
             </button>
           </div>
         </motion.div>

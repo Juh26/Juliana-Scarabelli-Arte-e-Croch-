@@ -9,7 +9,6 @@ function Loja() {
   const [carregando, setCarregando] = useState(true)
   const [categoriaAtiva, setCategoriaAtiva] = useState('Todos')
 
-  // Buscar produtos do Supabase
   useEffect(() => {
     async function buscarProdutos() {
       setCarregando(true)
@@ -34,7 +33,7 @@ function Loja() {
     buscarProdutos()
   }, [categoriaAtiva])
 
-  const categorias = ['Todos', 'Amigurumi', 'Acessórios', 'Decoração', 'Vestuário', 'Bebê']
+  const categorias = ['Todos', 'Decoração', 'Chaveiros', 'Bolsas', 'Vestuário']
 
   if (carregando) {
     return (
@@ -66,33 +65,48 @@ function Loja() {
 
         {/* Grid de Produtos */}
         <div className="produtos-grid">
-          {produtos.map(produto => (
-            <Link to={`/produto/${produto.id}`} key={produto.id} className="produto-card">
-              <div className="produto-imagem">
-                <span>{produto.imagem || '🧶'}</span>
-                {produto.em_promocao && (
-                  <span className="promo-badge">PROMOÇÃO</span>
-                )}
-              </div>
-              <div className="produto-info">
-                <span className="produto-categoria">{produto.categoria}</span>
-                <h3 className="produto-nome">{produto.nome}</h3>
-                <div className="produto-preco">
-                  {produto.em_promocao && produto.preco_original ? (
-                    <>
-                      <span className="preco-original">R$ {produto.preco_original.toFixed(2)}</span>
-                      <span className="preco-atual">R$ {produto.preco.toFixed(2)}</span>
-                    </>
+          {produtos.map(produto => {
+            // Verificar se tem imagem URL
+            const imagemUrl = produto.imagem && produto.imagem.startsWith('http') 
+              ? produto.imagem 
+              : null
+
+            return (
+              <Link to={`/produto/${produto.id}`} key={produto.id} className="produto-card">
+                <div className="produto-imagem">
+                  {imagemUrl ? (
+                    <img 
+                      src={imagemUrl} 
+                      alt={produto.nome} 
+                      className="card-imagem"
+                    />
                   ) : (
-                    <span className="preco-atual">R$ {produto.preco.toFixed(2)}</span>
+                    <span className="card-emoji">{produto.imagem || '🧶'}</span>
+                  )}
+                  {produto.em_promocao && (
+                    <span className="promo-badge">PROMOÇÃO</span>
                   )}
                 </div>
-                {produto.estoque <= 3 && produto.estoque > 0 && (
-                  <p className="estoque-baixo">Últimas {produto.estoque} peças!</p>
-                )}
-              </div>
-            </Link>
-          ))}
+                <div className="produto-info">
+                  <span className="produto-categoria">{produto.categoria}</span>
+                  <h3 className="produto-nome">{produto.nome}</h3>
+                  <div className="produto-preco">
+                    {produto.em_promocao && produto.preco_original ? (
+                      <>
+                        <span className="preco-original">R$ {produto.preco_original.toFixed(2)}</span>
+                        <span className="preco-atual">R$ {produto.preco.toFixed(2)}</span>
+                      </>
+                    ) : (
+                      <span className="preco-atual">R$ {produto.preco.toFixed(2)}</span>
+                    )}
+                  </div>
+                  {produto.estoque <= 3 && produto.estoque > 0 && (
+                    <p className="estoque-baixo">Últimas {produto.estoque} peças!</p>
+                  )}
+                </div>
+              </Link>
+            )
+          })}
         </div>
 
         {produtos.length === 0 && (
