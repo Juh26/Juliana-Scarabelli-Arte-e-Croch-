@@ -80,17 +80,21 @@ body.dark .produto-form {
   background: #16213e;
 }
 
+/* GRID - Imagem lado esquerdo, campos lado direito */
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 280px 1fr;
   gap: 2rem;
+  align-items: start;
 }
 
-/* Seção de Imagem */
+/* ============================================ */
+/* SEÇÃO DE IMAGEM - QUADRADA E PERFEITA */
+/* ============================================ */
 .form-image-section {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 
 .image-upload-area {
@@ -104,26 +108,61 @@ body.dark .image-upload-area {
   background: #0f1117;
 }
 
-.image-preview {
+/* Preview da imagem - QUADRADA */
+.image-preview-container {
   position: relative;
-  width: 100%;
-  aspect-ratio: 1;
-  border-radius: 0.75rem;
-  overflow: hidden;
-  margin-bottom: 1rem;
+  width: 240px;
+  height: 240px;
+  margin: 0 auto;
 }
 
-.image-preview img {
+.image-preview {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 0.75rem;
+}
+
+/* Placeholder da imagem - QUADRADO */
+.image-placeholder {
+  width: 240px;
+  height: 240px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #e8f0e6, #d4e8cf);
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.image-placeholder:hover {
+  transform: scale(1.02);
+}
+
+.image-placeholder svg {
+  width: 40px;
+  height: 40px;
+  color: #8b6f4e;
+}
+
+.image-placeholder span {
+  font-size: 0.8rem;
+  color: #8b6f4e;
+}
+
+.image-input {
+  display: none;
 }
 
 .remove-image-btn {
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: rgba(0, 0, 0, 0.5);
+  top: -8px;
+  right: -8px;
+  background: #e74c3c;
   color: white;
   border: none;
   width: 1.75rem;
@@ -133,31 +172,29 @@ body.dark .image-upload-area {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s ease;
 }
 
-.image-placeholder {
-  width: 100%;
-  aspect-ratio: 1;
-  background: linear-gradient(135deg, #e8f0e6, #d4e8cf);
-  border-radius: 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 4rem;
-  margin-bottom: 1rem;
+.remove-image-btn:hover {
+  background: #c0392b;
+  transform: scale(1.1);
 }
 
 .upload-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   background: #6b8c5c;
   color: white;
+  border: none;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 0.5rem;
 }
 
 .upload-btn:hover {
@@ -165,10 +202,13 @@ body.dark .image-upload-area {
 }
 
 .image-hint {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: #8b6f4e;
+  text-align: center;
   margin-top: 0.5rem;
 }
+
+/* ============================================ */
 
 /* Campos do Formulário */
 .form-fields-section {
@@ -234,7 +274,7 @@ body.dark .form-textarea {
 }
 
 .checkbox-field {
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: row;
 }
@@ -339,7 +379,7 @@ body.dark .form-textarea {
 @media (max-width: 768px) {
   .form-grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 1.5rem;
   }
   
   .form-row {
@@ -369,5 +409,15 @@ body.dark .form-textarea {
   
   .produto-form {
     padding: 1rem;
+  }
+  
+  .form-image-section {
+    align-items: center;
+  }
+  
+  .image-placeholder,
+  .image-preview-container {
+    width: 200px;
+    height: 200px;
   }
 }

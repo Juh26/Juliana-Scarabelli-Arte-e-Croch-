@@ -31,7 +31,6 @@ function AdminProduto() {
     num_avaliacoes: 0
   })
 
-  // ✅ CATEGORIAS ATUALIZADAS - SÃO ESSAS AQUI!
   const categorias = ['Decoração', 'Chaveiros', 'Bolsas', 'Vestuário']
 
   useEffect(() => {
@@ -227,77 +226,87 @@ function AdminProduto() {
           <h1 className="form-title">{isEditando ? 'Editar Produto' : 'Novo Produto'}</h1>
 
           <form onSubmit={handleSubmit} className="produto-form">
-            {/* Upload de Imagem */}
-            <div className="form-field">
-              <label className="form-label">Imagem</label>
-              <div className="image-upload-area">
-                {imagemPreview ? (
-                  <div className="image-preview-container">
-                    <img src={imagemPreview} alt="Preview" className="image-preview" />
-                    <button type="button" className="remove-image-btn" onClick={removerImagem}>
-                      <X size={16} />
-                    </button>
+            <div className="form-grid">
+              {/* COLUDA ESQUERDA - IMAGEM */}
+              <div className="form-image-section">
+                <label className="form-label">Imagem</label>
+                <div className="image-upload-area">
+                  {imagemPreview ? (
+                    <div className="image-preview-container">
+                      <img src={imagemPreview} alt="Preview" className="image-preview" />
+                      <button type="button" className="remove-image-btn" onClick={removerImagem}>
+                        <X size={16} />
+                      </button>
+                    </div>
+                  ) : (
+                    <label className="image-placeholder">
+                      <Upload size={40} />
+                      <span>Clique para selecionar</span>
+                      <input type="file" accept="image/*" onChange={handleImageUpload} className="image-input" />
+                    </label>
+                  )}
+                  <button 
+                    type="button" 
+                    className="upload-btn"
+                    onClick={() => document.querySelector('.image-input')?.click()}
+                    disabled={uploadando}
+                  >
+                    {uploadando ? 'Enviando...' : 'Selecionar imagem'}
+                  </button>
+                  <p className="image-hint">PNG, JPG até 2MB</p>
+                </div>
+              </div>
+
+              {/* COLUNA DIREITA - CAMPOS */}
+              <div className="form-fields-section">
+                <div className="form-field">
+                  <label className="form-label">Nome</label>
+                  <input type="text" name="nome" value={formData.nome} onChange={handleChange} required className="form-input" />
+                </div>
+
+                <div className="form-field">
+                  <label className="form-label">Slug</label>
+                  <input type="text" name="slug" value={formData.slug} onChange={handleChange} className="form-input" />
+                </div>
+
+                <div className="form-field">
+                  <label className="form-label">Categoria</label>
+                  <select name="categoria" value={formData.categoria} onChange={handleChange} className="form-select">
+                    {categorias.map(cat => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-field">
+                    <label className="form-label">Preço (R$)</label>
+                    <input type="number" name="preco" value={formData.preco} onChange={handleChange} required step="0.01" className="form-input" />
                   </div>
-                ) : (
-                  <div className="image-placeholder">
-                    <Upload size={24} />
-                    <span>Clique para selecionar</span>
+                  <div className="form-field">
+                    <label className="form-label">Preço Original</label>
+                    <input type="number" name="preco_original" value={formData.preco_original} onChange={handleChange} step="0.01" className="form-input" />
                   </div>
-                )}
-                <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploadando} className="image-input" id="img-input" />
-                <label htmlFor="img-input" className="upload-btn-label">
-                  {uploadando ? 'Enviando...' : 'Selecionar imagem'}
-                </label>
-                <p className="image-hint">PNG, JPG até 2MB</p>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-field">
+                    <label className="form-label">Estoque</label>
+                    <input type="number" name="estoque" value={formData.estoque} onChange={handleChange} required min="0" className="form-input" />
+                  </div>
+                  <div className="form-field checkbox-field">
+                    <label className="checkbox-label">
+                      <input type="checkbox" name="em_promocao" checked={formData.em_promocao} onChange={handleChange} />
+                      Em promoção
+                    </label>
+                  </div>
+                </div>
+
+                <div className="form-field full-width">
+                  <label className="form-label">Descrição</label>
+                  <textarea name="descricao" value={formData.descricao} onChange={handleChange} rows="4" className="form-textarea" />
+                </div>
               </div>
-            </div>
-
-            <div className="form-field">
-              <label className="form-label">Nome</label>
-              <input type="text" name="nome" value={formData.nome} onChange={handleChange} required className="form-input" />
-            </div>
-
-            <div className="form-field">
-              <label className="form-label">Slug</label>
-              <input type="text" name="slug" value={formData.slug} onChange={handleChange} className="form-input" />
-            </div>
-
-            <div className="form-field">
-              <label className="form-label">Categoria</label>
-              <select name="categoria" value={formData.categoria} onChange={handleChange} className="form-select">
-                {categorias.map(cat => (
-                  <option key={cat} value={cat}>{cat}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="form-row">
-              <div className="form-field">
-                <label className="form-label">Preço (R$)</label>
-                <input type="number" name="preco" value={formData.preco} onChange={handleChange} required step="0.01" className="form-input" />
-              </div>
-              <div className="form-field">
-                <label className="form-label">Preço Original</label>
-                <input type="number" name="preco_original" value={formData.preco_original} onChange={handleChange} step="0.01" className="form-input" />
-              </div>
-            </div>
-
-            <div className="form-row">
-              <div className="form-field">
-                <label className="form-label">Estoque</label>
-                <input type="number" name="estoque" value={formData.estoque} onChange={handleChange} required min="0" className="form-input" />
-              </div>
-              <div className="form-field checkbox-field">
-                <label className="checkbox-label">
-                  <input type="checkbox" name="em_promocao" checked={formData.em_promocao} onChange={handleChange} />
-                  Em promoção
-                </label>
-              </div>
-            </div>
-
-            <div className="form-field">
-              <label className="form-label">Descrição</label>
-              <textarea name="descricao" value={formData.descricao} onChange={handleChange} rows="4" className="form-textarea" />
             </div>
 
             <div className="form-actions">
