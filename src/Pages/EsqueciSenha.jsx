@@ -29,62 +29,15 @@ function EsqueciSenha() {
     setLoading(true)
 
     try {
-      // 1. Verificar se o e-mail existe no banco
-      const { data: user, error: userError } = await supabase
-        .from('perfis')
-        .select('email')
-        .eq('email', email)
-        .single()
-
-      if (userError || !user) {
-        toast.error('E-mail não encontrado')
-        setLoading(false)
-        return
-      }
-
-      // 2. Gerar token único
-      const token = Math.random().toString(36).substring(2, 15) + 
-                    Math.random().toString(36).substring(2, 15)
+      const redirectTo = `${window.location.origin}/reset-password`
       
-      const expiresAt = new Date()
-      expiresAt.setHours(expiresAt.getHours() + 1) // Expira em 1 hora
-
-      // 3. Salvar token no banco
-      const { error: tokenError } = await supabase
-        .from('reset_tokens')
-        .insert([{
-          email: email,
-          token: token,
-          expires_at: expiresAt.toISOString(),
-          used: false
-        }])
-
-      if (tokenError) {
-        console.error('Erro ao salvar token:', tokenError)
-        toast.error('Erro ao processar solicitação')
-        setLoading(false)
-        return
-      }
-
-      // 4. Criar link de reset
-      const resetLink = `${window.location.origin}/resetar-senha/${token}`
-
-      // 5. Enviar e-mail via Resend (chamando nossa API)
-      const response = await fetch('/api/send-reset-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          email, 
-          resetLink,
-          nome: user.nome || 'cliente'
-        })
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo,
       })
 
-      const result = await response.json()
-
-      if (!result.success) {
-        console.error('Erro ao enviar e-mail:', result.error)
-        toast.error('Erro ao enviar e-mail. Tente novamente.')
+      if (error) {
+        console.error('Erro ao enviar e-mail:', error)
+        toast.error('Erro ao enviar e-mail de recuperação')
         setLoading(false)
         return
       }
