@@ -18,6 +18,7 @@ import AdminProduto from './Pages/AdminProduto'
 import MeusPedidos from './Pages/MeusPedidos'
 import EsqueciSenha from './Pages/EsqueciSenha'
 import ResetarSenha from './Pages/ResetarSenha'
+import ResetPassword from './Pages/ResetPassword'  // ← NOVA IMPORTAÇÃO
 import AdminRoute from './components/AdminRoute'
 import './styles/App.css'
 import './styles/Navbar.css'
@@ -49,6 +50,7 @@ function App() {
           <Route path="/cadastro" element={<Cadastro />} />
           <Route path="/esqueci-senha" element={<EsqueciSenha />} />
           <Route path="/resetar-senha/:token" element={<ResetarSenha />} />
+          <Route path="/reset-password" element={<ResetPassword />} />  {/* ← NOVA ROTA */}
           
           {/* Checkout e Pedidos */}
           <Route path="/checkout" element={<Checkout />} />

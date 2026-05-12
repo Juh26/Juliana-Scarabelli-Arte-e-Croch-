@@ -21,57 +21,90 @@ function EsqueciSenha() {
       return
     }
 
+    if (!email.includes('@')) {
+      toast.error('Digite um e-mail válido')
+      return
+    }
+
     setLoading(true)
 
-    // Verificar se o e-mail existe
-    const { data: user, error } = await supabase
-      .from('perfis')
-      .select('email')
-      .eq('email', email)
-      .single()
+    try {
+      // 1. Verificar se o e-mail existe no banco
+      const { data: user, error: userError } = await supabase
+        .from('perfis')
+        .select('email')
+        .eq('email', email)
+        .single()
 
-    if (error || !user) {
-      toast.error('E-mail não encontrado')
-      setLoading(false)
-      return
-    }
+      if (userError || !user) {
+        toast.error('E-mail não encontrado')
+        setLoading(false)
+        return
+      }
 
-    // Gerar token único
-    const token = Math.random().toString(36).substring(2, 15) + 
-                  Math.random().toString(36).substring(2, 15)
-    const expiresAt = new Date()
-    expiresAt.setHours(expiresAt.getHours() + 1) // Expira em 1 hora
+      // 2. Gerar token único
+      const token = Math.random().toString(36).substring(2, 15) + 
+                    Math.random().toString(36).substring(2, 15)
+      
+      const expiresAt = new Date()
+      expiresAt.setHours(expiresAt.getHours() + 1) // Expira em 1 hora
 
-    // Salvar token no banco
-    const { error: tokenError } = await supabase
-      .from('reset_tokens')
-      .insert([{
-        email: email,
-        token: token,
-        expires_at: expiresAt.toISOString(),
-        used: false
-      }])
+      // 3. Salvar token no banco
+      const { error: tokenError } = await supabase
+        .from('reset_tokens')
+        .insert([{
+          email: email,
+          token: token,
+          expires_at: expiresAt.toISOString(),
+          used: false
+        }])
 
-    if (tokenError) {
-      console.error('Erro ao salvar token:', tokenError)
+      if (tokenError) {
+        console.error('Erro ao salvar token:', tokenError)
+        toast.error('Erro ao processar solicitação')
+        setLoading(false)
+        return
+      }
+
+      // 4. Criar link de reset
+      const resetLink = `${window.location.origin}/resetar-senha/${token}`
+
+      // 5. Enviar e-mail via Resend (chamando nossa API)
+      const response = await fetch('/api/send-reset-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          email, 
+          resetLink,
+          nome: user.nome || 'cliente'
+        })
+      })
+
+      const result = await response.json()
+
+      if (!result.success) {
+        console.error('Erro ao enviar e-mail:', result.error)
+        toast.error('Erro ao enviar e-mail. Tente novamente.')
+        setLoading(false)
+        return
+      }
+
+      toast.success('Enviamos um link de recuperação para seu e-mail')
+      setEnviado(true)
+      
+    } catch (err) {
+      console.error('Erro inesperado:', err)
       toast.error('Erro ao processar solicitação')
+    } finally {
       setLoading(false)
-      return
     }
-
-    // Aqui você enviaria um e-mail real
-    // Por enquanto, vamos mostrar o link no console
-    const resetLink = `${window.location.origin}/resetar-senha/${token}`
-    console.log('Link de recuperação:', resetLink)
-    
-    toast.success('Link de recuperação foi gerado!')
-    setEnviado(true)
-    setLoading(false)
   }
 
+  // Tela de sucesso após envio
   if (enviado) {
     return (
       <div className="esqueci-page">
+        <Toaster position="top-right" richColors />
         <div className="esqueci-container">
           <motion.div
             className="esqueci-card"

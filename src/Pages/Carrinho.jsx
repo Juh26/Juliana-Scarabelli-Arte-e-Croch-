@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   ShoppingBag, Trash2, Minus, Plus, Tag, 
-  ArrowRight, ShoppingCart, X
+  ArrowRight, X
 } from 'lucide-react'
 import { useCart } from '../contexts/CartContext'
 import { useAuth } from '../contexts/Authcontext'
@@ -45,6 +45,14 @@ function Carrinho() {
     }
   }
 
+  // Função para verificar se a imagem é uma URL válida
+  const getImagemUrl = (item) => {
+    if (item.imagem && (item.imagem.startsWith('http') || item.imagem.includes('supabase'))) {
+      return item.imagem
+    }
+    return null
+  }
+
   // Carrinho vazio
   if (cartItems.length === 0) {
     return (
@@ -78,56 +86,67 @@ function Carrinho() {
           {/* Lista de Itens */}
           <div className="carrinho-items">
             <AnimatePresence mode="popLayout">
-              {cartItems.map((item) => (
-                <motion.div
-                  key={item.productId}
-                  className="carrinho-item"
-                  layout
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, x: -100 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {/* Thumbnail */}
-                  <div className="item-thumbnail">
-                    <span>{item.imagem}</span>
-                  </div>
+              {cartItems.map((item) => {
+                const imagemUrl = getImagemUrl(item)
+                return (
+                  <motion.div
+                    key={item.productId}
+                    className="carrinho-item"
+                    layout
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, x: -100 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {/* Thumbnail da imagem */}
+                    <div className="item-thumbnail">
+                      {imagemUrl ? (
+                        <img 
+                          src={imagemUrl} 
+                          alt={item.nome} 
+                          className="item-imagem"
+                        />
+                      ) : (
+                        <span className="item-emoji">{item.imagem || '🧶'}</span>
+                      )}
+                    </div>
 
-                  {/* Informações */}
-                  <div className="item-info">
-                    <h3 className="item-nome">{item.nome}</h3>
-                    <p className="item-preco">R$ {item.preco.toFixed(2)}</p>
-                    <p className="item-subtotal">
-                      Subtotal: R$ {(item.preco * item.quantidade).toFixed(2)}
-                    </p>
-                  </div>
+                    {/* Informações */}
+                    <div className="item-info">
+                      <h3 className="item-nome">{item.nome}</h3>
+                      <p className="item-preco">R$ {item.preco.toFixed(2)}</p>
+                      <p className="item-subtotal">
+                        Subtotal: R$ {(item.preco * item.quantidade).toFixed(2)}
+                      </p>
+                    </div>
 
-                  {/* Controles */}
-                  <div className="item-controles">
-                    <div className="quantidade-control">
+                    {/* Controles */}
+                    <div className="item-controles">
+                      <div className="quantidade-control">
+                        <button 
+                          className="qty-btn"
+                          onClick={() => updateQuantity(item.productId, item.quantidade - 1)}
+                        >
+                          <Minus size={12} />
+                        </button>
+                        <span className="qty-value">{item.quantidade}</span>
+                        <button 
+                          className="qty-btn"
+                          onClick={() => updateQuantity(item.productId, item.quantidade + 1)}
+                        >
+                          <Plus size={12} />
+                        </button>
+                      </div>
                       <button 
-                        className="qty-btn"
-                        onClick={() => updateQuantity(item.productId, item.quantidade - 1)}
+                        className="remove-btn"
+                        onClick={() => removeItem(item.productId)}
                       >
-                        <Minus size={12} />
-                      </button>
-                      <span className="qty-value">{item.quantidade}</span>
-                      <button 
-                        className="qty-btn"
-                        onClick={() => updateQuantity(item.productId, item.quantidade + 1)}
-                      >
-                        <Plus size={12} />
+                        <Trash2 size={16} />
                       </button>
                     </div>
-                    <button 
-                      className="remove-btn"
-                      onClick={() => removeItem(item.productId)}
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                )
+              })}
             </AnimatePresence>
           </div>
 

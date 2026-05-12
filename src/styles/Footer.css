@@ -158,4 +158,25 @@
   .footer-bottom {
     padding: 1rem 1.5rem;
   }
+  /* Newsletter no footer */
+.footer-col:last-child .newsletter {
+  background: transparent;
+  padding: 0;
+}
+
+.footer-col:last-child .newsletter-input {
+  background: #f5efe6;
+}
+
+body.dark .footer-col:last-child .newsletter-input {
+  background: #0f1117;
+}
+
+.footer-col:last-child .newsletter-btn {
+  background: #6b8c5c;
+}
+
+.footer-col:last-child .newsletter-btn:hover {
+  background: #5a7a4a;
+}
 }

@@ -1,5 +1,8 @@
+// src/Pages/Footer.jsx
 import { Link } from 'react-router-dom'
 import { MapPin, Mail, Phone, Heart } from 'lucide-react'
+import Newsletter from '../components/Newsletter'
+import '../styles/Footer.css'
 
 function Footer() {
   const anoAtual = new Date().getFullYear()
@@ -44,20 +47,10 @@ function Footer() {
           </ul>
         </div>
 
-        {/* Coluna 4 - Redes Sociais */}
+        {/* Coluna 4 - Newsletter */}
         <div className="footer-col">
-          <h4 className="footer-title">REDES SOCIAIS</h4>
-          <div className="footer-social">
-            <a 
-              href="https://instagram.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-              className="social-circle"
-            >
-              📷
-            </a>
-          </div>
+          <h4 className="footer-title">NEWSLETTER</h4>
+          <Newsletter />
         </div>
       </div>
 

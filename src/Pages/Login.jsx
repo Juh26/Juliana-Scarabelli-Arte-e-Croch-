@@ -3,35 +3,64 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Leaf, Eye, EyeOff } from 'lucide-react'
+import { supabase } from '../services/supabase'
 import { toast, Toaster } from 'sonner'
-import { useAuth } from '../contexts/Authcontext'
 import '../styles/Login.css'
 
 function Login() {
   const navigate = useNavigate()
-  const { login, user } = useAuth()  // ← Pegar o user do context
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
-  // Debug: Verificar se o usuário está logado
-  console.log('Usuário no Login:', user)
-
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    if (!email || !senha) {
+      toast.error('Preencha todos os campos')
+      return
+    }
+
     setLoading(true)
 
-    const result = await login(email, senha)
-    
-    setLoading(false)
+    try {
+      // Buscar usuário no Supabase
+      const { data: user, error } = await supabase
+        .from('perfis')
+        .select('*')
+        .eq('email', email)
+        .single()
 
-    if (result.success) {
-      if (result.user?.role === 'admin') {
+      if (error || !user) {
+        toast.error('E-mail ou senha incorretos')
+        setLoading(false)
+        return
+      }
+
+      if (user.senha !== senha) {
+        toast.error('E-mail ou senha incorretos')
+        setLoading(false)
+        return
+      }
+
+      // Login bem-sucedido
+      const { senha: _, ...userWithoutPassword } = user
+      localStorage.setItem('jsc_current_user', JSON.stringify(userWithoutPassword))
+
+      toast.success(`Bem-vinda, ${user.nome}!`)
+      setLoading(false)
+
+      if (user.role === 'admin') {
         navigate('/admin')
       } else {
         navigate('/loja')
       }
+
+    } catch (err) {
+      console.error('Erro no login:', err)
+      toast.error('Erro ao fazer login')
+      setLoading(false)
     }
   }
 
@@ -40,7 +69,7 @@ function Login() {
       <Toaster position="top-right" richColors />
       
       <div className="login-container">
-        <motion.div 
+        <motion.div
           className="login-card"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
