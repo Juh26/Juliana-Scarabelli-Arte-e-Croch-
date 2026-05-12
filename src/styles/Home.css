@@ -9,20 +9,13 @@ body {
   min-height: 100vh;
 }
 
-
 .home-container {
   min-height: 100vh;
   width: 100%;
-  
-  background: 
-    linear-gradient(rgba(240, 248, 235, 0.6), rgba(240, 248, 235, 0.6)),
-    url('C:\\Ceochê - Tarde\\Juliana Arte e Crochê\\public\\WhatsApp Image 2026-04-28 at 13.59.39.jpeg');
-  
+  background: linear-gradient(rgba(250, 248, 245, 0.4), rgba(250, 248, 245, 0.4)), url('/fundo-home.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
-  
   display: flex;
   align-items: center;
   padding: 3rem;

@@ -11,17 +11,13 @@ function Sobre() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-        >
+        > 
           {/* Grid 2 colunas */}
           <div className="sobre-grid">
             {/* Imagem do Ateliê - Esquerda */}
             <div className="sobre-imagem-wrapper">
               <div className="sobre-imagem">
-                <img 
-                  src="public\atelie.jpeg" 
-                  alt="atelie.jpeg"
-                  className="sobre-imagem-img"
-                />
+                <img src="/atelie.jpeg" alt="Ateliê Juliana Scarabelli" className="sobre-imagem-img"/>
               </div>
             </div>
             {/* Conteúdo Textual - Direita */}
